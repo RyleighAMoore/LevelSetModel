@@ -1,6 +1,6 @@
 %This code is used to study the individual ponds as the model evoles.
 
-z=getSurface([0.3,0.3],1);
+z=getSurface([0.2,0.2],1);
 scale = 1;
 perclevel = getFirstPercLevel(z,0,0.001,4,0,10);
 %[L,n] = bwlabel(ponds);
@@ -9,6 +9,8 @@ Area = zeros(1,sizeofarray);
 Per = zeros(1,sizeofarray);
 AreaArr=zeros(sizeofarray);
 PerArr=zeros(sizeofarray);
+AreaArrB=zeros(sizeofarray);
+PerArrB=zeros(sizeofarray);
 w= -1:0.01:1;
 count =1;
 biggestn = 0;
@@ -21,17 +23,32 @@ for j=-1:0.01:1
     end
     Area = zeros(1,sizeofarray);
     Per = zeros(1,sizeofarray);
+    AreaB = zeros(1,sizeofarray);
+    PerB = zeros(1,sizeofarray);
     for i=1:1:n
         indpond = (L == i);
+        firstcol = indpond(:,1); 
+        firstrow = indpond(1,:); 
+        lastcol = indpond(:,size(indpond,2));
+        lastrow = indpond(size(indpond,1),:);
         A = regionprops(indpond,'area');
         A = struct2array(A)/scale;
-        Area(i) = A;
         P = regionprops(indpond,'perimeter');
         P = struct2array(P)/scale;
         Per(i) = P;
+        if(max(firstcol)==0 && max(firstrow)==0 && max(lastcol)==0&& max(lastrow)==0)
+            Area(i) = A;
+            Per(i) = P;
+        else 
+            AreaB(i) = A;
+            PerB(i)=P;
+        end
     end
 AreaArr(count,:)= Area;
 PerArr(count,:)= Per;
+AreaArrB(count,:)= AreaB;
+PerArrB(count,:)= PerB;
+
 count = count+1;
 end
  %FD = 2.*(log(Per)./log(Area));
@@ -42,10 +59,10 @@ end
     plot(perclevel,y,'.k')
 end
 for ii = 1:size(w,2)
-    ii
     for jj = 1:size(AreaArr,2)
-        if AreaArr(ii,jj)~=0
-            plot(w(ii),AreaArr(ii,jj),'.');
+        if (AreaArr(ii,jj)~=0) || (AreaArrB(ii,jj)~=0)
+            plot(w(ii),AreaArr(ii,jj),'.k');
+            plot(w(ii),AreaArrB(ii,jj),'.k');
         end
     end
 end
@@ -53,7 +70,8 @@ hold off;
 
 figure;
 for ii = 1:size(PerArr,2)
-    loglog(AreaArr(ii,:),PerArr(ii,:), '.');
+    loglog(AreaArr(ii,:),PerArr(ii,:), '.k');
+    loglog(AreaArrB(ii,:),PerArrB(ii,:), '.r');
     hold on;
 end
 hold off;

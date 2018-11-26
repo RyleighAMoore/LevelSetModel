@@ -1,6 +1,7 @@
 """
 A module for simulating perculation
 """
+__precompile__()
 module Percolation
 
 using Formatting
@@ -11,7 +12,7 @@ using Distributed
 using Plots
 
 export getz, getzv2, getzp3, normalize_surface, label_lattice, check_percolates, meshgrid, getSurface, FindAreaFraction, process_surface,
-graphPc, populateAreaFractionArrays
+graphPc, populateAreaFractionArrays, walk
 
 """
     getz(Coef, Cx, Cy, xbunch, ybunch)
@@ -172,8 +173,6 @@ function FindAreaFraction(z, PlaneHeight)
     return AreaFraction
 end
 
-end
-
 
 """
     getFirstPercLevel(z, startingLevel; accuracy=0.1, neighbors=4,
@@ -280,8 +279,8 @@ function graphPc(odir, deltaX, p, _PAall, _NPAall, labeling_neighborhood, numSur
 
     xlabel!("Area Fraction")
     ylabel!("# Percolation")
-    title!(string("Pc=",Pc, "p=[", p[1], ",", p[2], "], #neighbors= ", labeling_neighborhood,
-      ",\nSurface count= ", numSurf, " ", "deltaX = ", deltaX, ",\nrounding decimal = ", decRound, " digits"))
+    title!(string("Pc=",Pc, ", p=[", p[1], ",", p[2], "], #neighbors= ", labeling_neighborhood,
+      ",\nSurface count= ", numSurf, ", ", "deltaX = ", deltaX, ",\nrounding decimal = ", decRound, " digits"))
 
     fname = string("pc_plot_",format(p[1], precision=2),"_",format(p[2], precision=2),
        "_n", format(labeling_neighborhood, width=1), "_s",
@@ -291,5 +290,24 @@ function graphPc(odir, deltaX, p, _PAall, _NPAall, labeling_neighborhood, numSur
 
     savefig(joinpath(odir,fname))
     return Pc
+
+end
+
+function walk(numsteps)
+    pos = 0
+
+    for j in 1:numsteps
+        
+        if rand(Bool)  # NB
+            step = -1
+        else
+            step = +1
+        end
+        
+        pos += step # ifelse(rand() < 0.5, -1, +1)
+    end
+    
+    return pos
+end
 
 end

@@ -1,1 +1,5 @@
 SimulinkProject/
+data
+*.png
+*.sqlite
+*.swp

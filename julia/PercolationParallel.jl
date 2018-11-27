@@ -1,4 +1,8 @@
 using Distributed
+numprocs = parse(Int, ARGS[4])
+println("Adding $numprocs workers")
+addprocs(numprocs)
+
 using Plots
 using JSON
 @everywhere include("./Percolation.jl")
@@ -89,10 +93,6 @@ function main()
     plow = parse(Float64, ARGS[1])
     phigh = parse(Float64, ARGS[2])
     numSurf = parse(Int, ARGS[3])
-    numprocs = parse(Int, ARGS[4])
-
-    println("Adding $numprocs workers")
-    addprocs(numprocs)
     println("Running $numSurf surfaces")
     rslts, startTime, endTime, odir = runSurfaces([plow, phigh], numSurf=numSurf);
 

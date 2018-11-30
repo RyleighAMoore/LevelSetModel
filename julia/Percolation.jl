@@ -12,7 +12,7 @@ using Distributed
 using Plots
 
 export getz, getzv2, getzp3, normalize_surface, label_lattice, check_percolates, meshgrid, getSurface, FindAreaFraction, process_surface,
-graphPc, populateAreaFractionArrays, walk
+graphPc, populateAreaFractionArrays, walk, write_sqlite, find_pc
 
 """
     getz(Coef, Cx, Cy, xbunch, ybunch)
@@ -251,7 +251,21 @@ function process_surface(p, odir; labeling_neighborhood=4, accuracy=0.1,
 end
 
 
-function graphPc(odir, deltaX, p, _PAall, _NPAall, labeling_neighborhood, numSurf; decRound=2)
+function graphPc(sortedX, sortedY, odir; title="Pc Plot", fname="pc_plot.png")
+    
+    
+    scatter(sortedX, sortedY, leg=false, marker=(:circle, 6, 0.1,  nothing,
+                                                 Plots.stroke(1, :black)))
+
+
+    xlabel!("Area Fraction")
+    ylabel!("# Percolation")
+
+    savefig(joinpath(odir,fname))
+
+end
+
+function find_pc(_PAall, _NPAall ; decRound=2, deltaX=0.001)
     xx=[]
     yy=[]
 
@@ -273,41 +287,32 @@ function graphPc(odir, deltaX, p, _PAall, _NPAall, labeling_neighborhood, numSur
     col = findfirst(isequal(1), sortedY)
     Pc=sortedX[col-1]
 
-    scatter(sortedX, sortedY, leg=false, marker=(:circle, 6, 0.1,  nothing,
-                                                 Plots.stroke(1, :black)))
+    return Pc, sortedX, sortedY, Dict("decRound"=>decRound, "deltaX"=>deltaX)
+end 
 
 
-    xlabel!("Area Fraction")
-    ylabel!("# Percolation")
-    title!(string("Pc=",Pc, ", p=[", p[1], ",", p[2], "], #neighbors= ", labeling_neighborhood,
-      ",\nSurface count= ", numSurf, ", ", "deltaX = ", deltaX, ",\nrounding decimal = ", decRound, " digits"))
-
-    fname = string("pc_plot_",format(p[1], precision=2),"_",format(p[2], precision=2),
-       "_n", format(labeling_neighborhood, width=1), "_s",
-        format(numSurf, width=5, zeropadding=true), "_d",
-        format(deltaX, precision=4), "_r",
-        format(decRound, width=4, zeropadding=true), ".png")
-
-    savefig(joinpath(odir,fname))
-    return Pc
-
-end
-
-function walk(numsteps)
-    pos = 0
-
-    for j in 1:numsteps
-        
-        if rand(Bool)  # NB
-            step = -1
-        else
-            step = +1
+function write_sqlite(r;dbname="perc.sqlite")
+    conn = SQLite.DB("perc.sqlite")
+    SQLite.query(conn, """INSERT INTO
+                         simulations(
+                         pc,
+                         p1,
+                         p2,
+                         num_surfaces,
+                         start_time,
+                         end_time,
+                         labeling_neighborhood,
+                         dec_round, 
+                         deltax,
+                         accuracy, 
+                         perc_direction,
+                         data_dir,
+                         user)
+    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+    values=[r["pc"], r["p"][1], r["p"][2], r["numSurf"], 
+            string(r["startTime"]), string(r["endTime"]), 
+            r["labeling_neighborhood"], r["decRound"],
+            r["deltaX"], r["accuracy"], r["perc_direction"], 
+            r["data_dir"], r["user"]])
         end
-        
-        pos += step # ifelse(rand() < 0.5, -1, +1)
-    end
-    
-    return pos
-end
-
 end

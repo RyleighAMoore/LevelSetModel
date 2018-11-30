@@ -22,7 +22,11 @@ end
 
 @everywhere using DistributedArrays
 
+using Profile
+
 @everywhere pyplot()
+
+
 
 function write_sqlite(r;dbname="perc.sqlite")
     conn = SQLite.DB("perc.sqlite")
@@ -49,9 +53,6 @@ function write_sqlite(r;dbname="perc.sqlite")
             r["data_dir"], r["user"]])
 end
 
-C = procs()
-D = distribute(C)
-
 """
     ```MainCode(p; numSurf=500, labeling_neighborhood=4, graphs=["histogram", "percgraph"], 
                      decRound=10, deltaX=0.001, accuracy=0.1, perc_direction="vertical")
@@ -64,17 +65,10 @@ deltaX:
 accuracy:
 perc_direction:
 """
-function runSurfaces(p; numSurf=500, labeling_neighborhood=4, graphs=["histogram", "percgraph"], 
-                     decRound=2, deltaX=0.001, accuracy=0.1, perc_direction="vertical")
+function runSurfaces(p, odir; numSurf=500, labeling_neighborhood=4,
+                     accuracy=0.1, perc_direction="vertical")
 
-    user = ENV["USER"]
     
-    ddir = string(uuid4())
-    odir = joinpath("data", ddir)
-    if ! isdir(odir)
-        mkpath(odir)
-    end
-
     startTime = now()
     ssurfaces = collect(1:numSurf);
     psurfaces = distribute(ssurfaces);
@@ -85,7 +79,13 @@ function runSurfaces(p; numSurf=500, labeling_neighborhood=4, graphs=["histogram
                          n=20, r=500, levels=100,
                          perc_direction=perc_direction))
     rslts = map(a, psurfaces)
-    return rslts, startTime, now(), odir
+
+    summary = Dict(
+                   "numSurf"=>numSurf, 
+                   "labeling_neighborhood"=>labeling_neighborhood, 
+                   "accuracy"=>accuracy, 
+                   "perc_direction"=>perc_direction)
+    return rslts, summary
 end
 
 function main()
@@ -93,17 +93,52 @@ function main()
     plow = parse(Float64, ARGS[1])
     phigh = parse(Float64, ARGS[2])
     numSurf = parse(Int, ARGS[3])
+
+    user = ENV["USER"]
+    ddir = string(uuid4())
+    odir = joinpath("data", ddir)
+    if ! isdir(odir)
+        mkpath(odir)
+    end
+
     println("Running $numSurf surfaces")
-    rslts, startTime, endTime, odir = runSurfaces([plow, phigh], numSurf=numSurf);
+    startTime = now()
+    rslts, summary= runSurfaces([plow, phigh], odir, numSurf=numSurf);
+    endTime = now()
+    summary["UUID"] = odir
+    summary["startTime"] = startTime
+    summary["endTime"] = endTime
+    summary["p"] = [plow, phigh]
+    summary["data_dir"] = ddir
+    summary["user"] = user
 
     println(length(rslts), startTime, endTime)
 
     areaFractions = [r[1] for r in rslts];
     PAall = reduce(append!, [r[2] for r in rslts]);
     NPAall = reduce(append!, [r[3] for r in rslts]);
+    println("finding Pc")
 
-    graphPc(odir, 0.001, [plow, phigh], PAall, NPAall, 
-                        4, numSurf, decRound=2)
+    Pc, sortedX, sortedY, pcSummary = find_pc(PAall, NPAall)
+
+    summary["pc"] = Pc
+
+    graphPc(sortedX, sortedY, odir)
+
+    summary = merge(summary, pcSummary)
+
+    open(joinpath(odir, "summary.json"), "w") do f
+        write(f, JSON.json(summary))
+    end
+
+    data = Dict("areaFracs"=>areaFractions, 
+                   "PAall"=>PAall,
+                   "NPAall"=>NPAall)
+    open(joinpath(odir, "data.json"), "w") do f
+        write(f, JSON.json(data))
+    end
+
+    write_sqlite(summary)
 end 
 
 main()

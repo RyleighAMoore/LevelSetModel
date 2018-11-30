@@ -1,10 +1,7 @@
-%This code is used to study the individual ponds as the model evoles.
-
-%z=getSurface([0.2,0.2],1);
+function [allArea, allPer, AreaList, PerList, AreaListB, PerListB] = getPondPerArea(z)
 scale = 1;
 perclevel = getFirstPercLevel(z,0,0.001,4,0,10);
-%[L,n] = bwlabel(ponds);
-sizeofarray =2000;
+sizeofarray = 2000;
 Area = zeros(1,sizeofarray);
 Per = zeros(1,sizeofarray);
 AreaArr=zeros(sizeofarray);
@@ -62,33 +59,5 @@ end
 
 allArea =  [AreaList AreaListB]';
 allPer =  [PerList PerListB]';
-AreaList = AreaList';
-PerList = PerList';
-AreaListB = AreaListB';
-PerListB = PerListB';
 
- %FD = 2.*(log(Per)./log(Area));
-
- figure;
- hold on;
- for y=0:1:10000
-    plot(perclevel,y,'.k')
 end
-for ii = 1:size(w,2)
-    for jj = 1:size(AreaArr,2)
-        if (AreaArr(ii,jj)~=0) || (AreaArrB(ii,jj)~=0)
-            plot(w(ii),AreaArr(ii,jj),'.k');
-            plot(w(ii),AreaArrB(ii,jj),'.k');
-        end
-    end
-end
-hold off;
-
-figure;
-for ii = 1:size(PerArr,2)
-    loglog(AreaArr(ii,:),PerArr(ii,:), '.k');
-    loglog(AreaArrB(ii,:),PerArrB(ii,:), '.r');
-    hold on;
-end
-hold off;
-

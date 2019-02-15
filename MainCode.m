@@ -18,11 +18,11 @@ for r=1:1:numSurf
     startingLevel = 0;
     surfaceLevel = getFirstPercLevel(z,startingLevel,accuracy,bwlabelnum,HorizVert,decRound);
     Af = FindAreaFraction(z, surfaceLevel);
-    areaFracs = [areaFracs Af];
+    areaFracs = [areaFracs Af];0.
     if graphNums == 1 || graphNums == 2
-        [PA, NPA] = populateAreaFractionArrays(z, surfaceLevel, decRound);
+        [PA, NPA] = populateAreaFract2ionArrays(z, surfaceLevel, decRound);
         PAall =[PAall PA];
-        NPAall =[NPAall NPA];
+        NPAall =[NPAa2ll NPA];
     end
 end
 if graphNums == 1 || graphNums == 2

@@ -6,7 +6,7 @@ AreaIce = [];
 w=-1:0.01:1;
 scale = 1500;
 pondnumbers = [];
-num=5;
+num=1;
 pondnumbersarray=[];
 areanumarray = [];
 iceareaarray = [];
@@ -15,20 +15,29 @@ firstperclevelsarray = [];
 NumPondswhenperc = [];
 for count = 1:1:num
     %z=getSurface([0.1+count*0.1,0.1+count*0.1],0);
-    z=getSurface([0.3,0.3],0);
+    %z=getSurface([0.3,0.3],0);
     pondnumbers = [];
     AreaPond= [];
+    PerPond= [];
     AreaIce = [];
     level = getFirstPercLevel(z,0,0.001,4,0,10);
     firstperclevels = [firstperclevels level];
     wfind=(round(w,2)==round(level,2)); %index 
     in = find(wfind,1);
     for i=-1:0.01:1
-        N = real(z < i);
+        N = real(z <= i);
         [L,n]=bwlabel(N,4);
         pondnumbers = [pondnumbers n];
         s = sum(sum(real(z <= i)))/scale;
         AreaPond = [AreaPond s];
+        pondnumbersarray=[];
+        P = regionprops(N,'perimeter');
+        P = struct2array(P)/scale;
+        if isempty(P)
+            P=0
+        end
+            PerPond = [PerPond P]
+        
     end
     NumPondswhenperc = [NumPondswhenperc pondnumbers(in)];
     pondnumbersarray(count,:) = pondnumbers;

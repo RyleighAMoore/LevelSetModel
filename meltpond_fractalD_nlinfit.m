@@ -49,9 +49,9 @@ y = dat(:,2);
 
 x = x(:);
 y = y(:);
-a0(end+1) = 0.3; 
+%a0(end+1) = 0.3; 
 % find parameters that minimize the model-data misfit
-mdl = @(a,x)(0.25/a(1)*log(cosh(a(1)*x+a(2)))+0.75*x + a(3)); 
+%mdl = @(a,x)(0.25/a(1)*log(cosh(a(1)*x+a(2)))+0.75*x + a(3)); 
 % mdl = @(a,x)(0.5* (a(1)/a(2) * log(cosh(a(2)*x + a(3))) + a(4)*x) + a(5)); 
 mdl =   @(a,x)(0.5* (a(1)/a(2) * log(cosh(a(2)*(x - a(3)))) + a(4)*x) + a(5)); % brady 28 Aug 2014 
 %mdl = @(a,x) log(cosh(a(2)+a(1)+x))/(4*a(1)) + 3*x/4+a(3);
@@ -64,7 +64,7 @@ if a(1)<0
 end
 
 % if user calls for more than the parameters 
-if nargout>1
+if nargout > 1
   xmin = min(x);
   xmax = max(x);
   dx = xmax - xmin;
@@ -75,7 +75,7 @@ if nargout>1
   f = mdl(a,xx);
   D = f_slope(a,xx); 
   yhat = mdl(a,x); 
-end;
+end
 
 r2 = corr(y,yhat).^2; 
 

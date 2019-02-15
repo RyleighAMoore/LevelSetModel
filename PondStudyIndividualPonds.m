@@ -1,6 +1,6 @@
 %This code is used to study the individual ponds as the model evoles.
 
-%z=getSurface([0.2,0.2],1);
+z=getSurface([0.3,0.3],1);
 scale = 1;
 perclevel = getFirstPercLevel(z,0,0.001,4,0,10);
 %[L,n] = bwlabel(ponds);
@@ -16,13 +16,15 @@ PerList=[];
 AreaListB=[];
 PerListB=[];
 w= -1:0.1:1;
-count =1;
+count =5;
 biggestn = 0;
-for j=-1:0.1:1
+perTotal= [];
+for j=-1:0.01:1
+    perTotal = [perTotal sum(Per)]
     j
     ponds = (z <= j);
     [L,n] = bwlabel(ponds, 4);
-    if n> biggestn
+    if n > biggestn
         biggestn = n;
     end
     Area = zeros(1,sizeofarray);
@@ -51,6 +53,7 @@ for j=-1:0.1:1
             AreaListB = [AreaListB A];
             PerListB = [PerListB P];
         end
+        
     end
 AreaArr(count,:)= Area;
 PerArr(count,:)= Per;

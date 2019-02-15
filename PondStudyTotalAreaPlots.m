@@ -6,7 +6,7 @@ w=-1:0.01:1;
 pondnumbers = [];
 Per =[];
 scale = 1;
-%z=getSurface([0.3,0.3],1);
+z=getSurface([0.3,0.3],1);
 AreaFrac = [];
 for i=-1:0.01:1
     N = real(z < i);
@@ -21,8 +21,8 @@ end
 figure;
 hold on;
 plot(w, Area/(500*500));
-%plot(w, Areaperpond);
-%plot(w,pondnumbers);
+plot(w, Areaperpond);
+plot(w,pondnumbers);
 legend('Area', 'Avg Area', '# ponds')
 scale = 1;
 %z=getSurface([0.3,0.3],1);

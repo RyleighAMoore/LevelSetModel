@@ -1,6 +1,7 @@
 %This code is used to study the individual ponds as the model evoles.
 
 z=getSurface([0.3,0.3],1);
+%z=topo2
 scale = 1;
 perclevel = getFirstPercLevel(z,0,0.001,4,0,10);
 %[L,n] = bwlabel(ponds);
@@ -39,17 +40,28 @@ for j=-1:0.01:1
         lastrow = indpond(size(indpond,1),:);
         A = regionprops(indpond,'area');
         A = struct2array(A)/scale;
-        P = regionprops(indpond,'perimeter');
-        P = struct2array(P)/scale;
-        Per(i) = P;
+%         P = regionprops(indpond,'perimeter');
+%         P = struct2array(P)/scale;
+%         Per(i) = P;
+        W=L;
+        perTotal = 0;
+        [r, c]= size(W);
+        for row=1:1:r
+            for col=1:1:c
+                if W(row,col)== i
+                    numZeros = getSurroundingZeros(W, row, col);
+                    perTotal = perTotal + numZeros;
+                end
+            end
+        end
         if(max(firstcol)==0 && max(firstrow)==0 && max(lastcol)==0&& max(lastrow)==0)
             Area(i) = A;
-            Per(i) = P;
+            Per(i) = perTotal;
             AreaList = [AreaList A];
             PerList = [PerList P];
         else 
             AreaB(i) = A;
-            PerB(i)=P;
+            PerB(i)=perTotal;
             AreaListB = [AreaListB A];
             PerListB = [PerListB P];
         end

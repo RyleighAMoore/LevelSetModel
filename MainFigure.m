@@ -3,14 +3,15 @@ surfname = 'realdataScaled' % Change this for the new surface
 step = 0.01;
 w=-1:step:1;
 areanumarray = [];
-%z=getSurface([0.2,0.85],0);
-%z=topo2
 z = dlmread(strcat(surfname, '.csv'),',');
+z= topo2
 perclevel = getFirstPercLevel(z,0,0.000001,8,0,100);
 pondcount = [];
 Area= [];
 Per= [];
 PerRegionProps=[]
+maxes = []
+mins = []
 for i=-1:step:1  
     i
     N = real(z <= i);
@@ -18,7 +19,6 @@ for i=-1:step:1
     Area = [Area s];
     [L,n]=bwlabel(N,8);
     pondcount = [pondcount n];
-   
     A=N;
     perTotal = 0;
     [r, c]= size(A);
@@ -44,7 +44,7 @@ for i=-1:step:1
     PerRegionProps = [PerRegionProps PerCount]
 end
 
-zsad = dlmread(strcat(surfname, 'Saddles.csv'),',');
+zsad = dlmread(strcat('','realDataScaledSaddles.csv'),',');
 zsad = reshape(zsad, size(z))
 saddles= [];
 w = -1:step:1;

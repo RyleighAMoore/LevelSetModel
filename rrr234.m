@@ -7,6 +7,7 @@ Diff = [];
 Diffcluster = [];
 cluster = [];
 z=getSurface([0.3,0.3],1);
+%z=topo2
 figure;
 hold on;
 for i=-1:0.01:1

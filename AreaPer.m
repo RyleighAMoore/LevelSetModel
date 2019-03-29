@@ -4,10 +4,10 @@
 AreaPond = [];
 AreaIce = [];
 w=-1:0.01:1;
-scale = 1500;
+scale = 1;
 areanumarray = [];
 iceareaarray = [];
-%z=getSurface([0.3,0.3],0);
+z=getSurface([0.3,0.3],0);
 perclevel = getFirstPercLevel(z,0,0.000001,4,0,100);
 pondnumbers = [];
 AreaPond= [];

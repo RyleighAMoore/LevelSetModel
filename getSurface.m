@@ -25,7 +25,7 @@ function [z,Off,Coef]=getSurface(p,flag1)
 syms x y;
 
 n = 20; %Resolution of cosine terms, gives 2n+1 x n+1 terms
-r = 500; %Resolution of Surface
+r = 1000; %Resolution of Surface
 l = 100; %Number of levelsets
 
 

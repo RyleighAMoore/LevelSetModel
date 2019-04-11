@@ -3,7 +3,7 @@ surfname = 'surf1' % Change this for the new surface
 step = 0.01;
 w=-1:step:1;
 areanumarray = [];
-z = dlmread(strcat('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\',surfname, '.csv'),',');
+z = dlmread(strcat('C:\Users\Dane\Desktop\Golden Group Research\LevelSetModel\Surfaces\',surfname, '.csv'),',');
 %z= topo2
 perclevel = getFirstPercLevel(z,0,0.000001,8,0,100);
 pondcount = [];
@@ -44,7 +44,7 @@ for i=-1:step:1
     PerRegionProps = [PerRegionProps PerCount]
 end
 
-zsad = dlmread(strcat('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\',surfname,'saddles.csv'),',');
+zsad = dlmread(strcat('C:\Users\Dane\Desktop\Golden Group Research\LevelSetModel\Surfaces\',surfname,'saddles.csv'),',');
 zsad = reshape(zsad, size(z))
 saddles= [];
 w = -1:step:1;

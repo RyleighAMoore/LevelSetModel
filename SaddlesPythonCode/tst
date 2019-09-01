@@ -1,0 +1,70 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(8)  # Side Infinity
+
+
+def check_if_exit(v):
+    # Takes a vector v=(x,y)
+    # Checks if v has intersected with the boundary of D
+    if (v[0] >= 1) | (v[0] <= 0) | (v[1] >= 1) | (v[1] <= 0):
+        return True
+    return False
+
+
+def simulate_exit_time(v):
+    # Simulates exit time starting at v=(x,y), returns exit position
+    delta_t = np.sqrt(.01)
+    exit = False
+
+    if hasattr(v, 'copy'):
+        x = v.copy()
+    else:
+        x = np.array(v)
+    while not exit:
+        x += delta_t * np.random.normal(0, 1, size=2)  # += modifies in place
+        exit = check_if_exit(x)
+    return x
+
+
+v = np.array((.5, .5))  # The origin
+u = lambda x: 0
+tol = 0.001
+f = lambda x: (x[0] < tol)*0 + (x[0] > 1-tol)*1 + (x[1] < tol)*1 + (x[1] > 1-tol)*2
+#f = lambda x: (x[0] == 0)*0 + (x[0] == 1)*1 + (x[1] == 0)*1 + (x[1] == 1)*2
+
+
+
+def get_exp_f_exit(starting_point, n_trials):
+    r = simulate_exit_time(starting_point)
+    return np.mean([f(simulate_exit_time(starting_point)) for k in range(0, n_trials)])
+
+
+lin = np.linspace(0, 1, 100)
+x, y = np.meshgrid(lin, lin)
+print(x.shape)
+u_vec = np.zeros(x.shape)
+bm_vec = np.zeros(x.shape)
+
+# Convert u to a solution in x,y coordinates
+u_x = lambda x, y: np.linalg.norm(np.array([x, y]), 1) * np.cos(np.arctan2(y, x))
+
+# Calculate actual and approximate solution for (x,y) in D
+for k in range(0, x.shape[0]):
+    print(k)
+    for j in range(0, x.shape[1]):
+        x_t = x[k, j]
+        y_t = y[k, j]
+
+        # Calculate  value at this point for each image
+        u_vec[k, j] = u_x(x_t, y_t)
+        bm_vec[k, j] = get_exp_f_exit((x_t, y_t), 30)
+
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+plt.title('BM Solution')
+plt.imshow(bm_vec, cmap=plt.cm.jet)
+plt.show()
+t = 0

@@ -4,3 +4,5 @@ data
 *.sqlite
 *.swp
 .ipynb_checkpoints
+
+SaddlesPythonCode/venv

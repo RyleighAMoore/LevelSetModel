@@ -36,6 +36,7 @@ for j=-1:0.1:1
         A = struct2array(A)/scale;
         P = regionprops(indpond,'perimeter');
         P = struct2array(P)/scale;
+       
         Per(i) = P;
         if(max(firstcol)==0 && max(firstrow)==0 && max(lastcol)==0&& max(lastrow)==0)
             Area(i) = A;

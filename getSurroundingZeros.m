@@ -6,8 +6,9 @@ numZeros = 0;
            numZeros = numZeros +1;
        end
     catch
-       numZeros = numZeros +1;
+       numZeros = numZeros + 1;
     end
+    
     try
        if (lattice(row,col-1)==0)
            numZeros = numZeros +1;
@@ -15,6 +16,7 @@ numZeros = 0;
     catch
        numZeros = numZeros +1;
     end 
+    
     try
        if (lattice(row-1,col)==0)
            numZeros = numZeros +1;
@@ -22,6 +24,7 @@ numZeros = 0;
     catch
        numZeros = numZeros +1;
     end
+    
     try
        if (lattice(row+1,col)==0)
            numZeros = numZeros +1;

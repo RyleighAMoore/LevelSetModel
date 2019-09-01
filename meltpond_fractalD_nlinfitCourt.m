@@ -1,4 +1,4 @@
-function [a,xx,f,yhat,D,r2] = meltpond_fractalD_nlinfit(x,y,a0,flag,subsamp)
+function [a,xx,f,yhat,D,r2] = meltpond_fractalD_nlinfitCourt(x,y,a0,flag,subsamp)
 % [a,xx,f,yhat,D,r2] = meltpond_fractalD_nlinfit(x,y,a0,flag,subsamp)
 %
 %   Assumes user has statistics toolbox available
@@ -53,7 +53,7 @@ a0(end+1) = 0.3;
 % find parameters that minimize the model-data misfit
 % mdl = @(a,x)(0.25/a(1)*log(cosh(a(1)*x+a(2)))+0.75*x + a(3));
 % mdl = @(a,x)(0.5* (a(1)/a(2) * log(cosh(a(2)*x + a(3))) + a(4)*x) + a(5));
-mdl =   @(a,x)(0.5* (a(1)/a(2) * log(cosh(a(2)*(x - a(3)))) + a(4)*x) + a(5)); % brady 28 Aug 2014
+mdl = @(a,x)(0.5* (a(1)/a(2) * log(cosh(a(2)*(x - a(3)))) + a(4)*x) + a(5)); % brady 28 Aug 2014
 % [a,res] = nlinfit(x,y,mdl,a0,statset('display','iter'));
 [a,res] = nlinfit(x,y,mdl,a0,statset('display','off','funvalcheck','off','maxiter',500));
  
@@ -80,12 +80,12 @@ r2 = corr(y,yhat).^2;
 %%
 % plot if flag is true
 if flag
-    clf; subplot(2,1,1); plot(x,y,'b.','markersize',3);
-    hold on; plot(xx,f,'r-','linewidth',1.5);
-    set(gca,'xlim',[x1 x2],'plotboxaspectratio',[1.5 1 1]);
+    clf; subplot(2,1,1); loglog(exp(x),exp(y),'b.','markersize',3);
+    hold on; loglog(exp(xx),exp(f),'r-','linewidth',1.5);
+    %set(gca,'xlim',[x1 x2],'plotboxaspectratio',[1.5 1 1]);
     xlabel('log A'); ylabel('log P');
     subplot(2,1,2);
-    plot(xx,f_slope(a,xx),'linewidth',1.5);
+    semilogx(exp(xx),f_slope(a,xx),'linewidth',1.5);
     xlabel('log A'); ylabel('D');
     % set(gca,'xlim',[0 4],'ylim',[1 2],'plotboxaspectratio',[1.5 1 1]);
 end;

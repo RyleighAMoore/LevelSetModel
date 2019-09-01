@@ -1,4 +1,4 @@
-surfname = 'surf1' % Change this for the new surface
+surfname = 'realdataScaled' % Change this for the new surface
 z = dlmread(strcat('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\',surfname, '.csv'),',');
 zsad = dlmread(strcat('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\',surfname,'saddles.csv'),',');
 zsad = reshape(zsad, size(z))
@@ -30,7 +30,7 @@ areaval =[]
 Perval = []
 for i=-1:step:1
     curr = (z<=i);
-    val = curr(170,280);
+    val = curr(5,280);
     if val ~=0
         t = nnz(curr==val)
     else

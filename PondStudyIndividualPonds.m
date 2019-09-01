@@ -1,6 +1,8 @@
 %This code is used to study the individual ponds as the model evoles.
 
 z=getSurface([0.3,0.3],1);
+% surfname = 'realdataScaled' % Change this for the new surface
+% z = dlmread(strcat('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\',surfname, '.csv'),',');
 %z=topo2
 scale = 1;
 perclevel = getFirstPercLevel(z,0,0.001,4,0,10);
@@ -106,4 +108,15 @@ for ii = 1:size(PerArr,2)
     hold on;
 end
 hold off;
+
+figure;
+for ii = 1:size(PerArr,2)
+    plot(AreaArr(ii,:),PerArr(ii,:).^2./(4*pi.*AreaArr(ii,:)), '.k');
+    %plot(AreaArrB(ii,:),PerArrB(ii,:).^2./(4*pi.*AreaArrB(ii,:)), '.r');
+    %plot(PerArr(ii,:),PerArr(ii,:).^2./(4*pi.*AreaArr(ii,:)), '.k');
+
+    hold on;
+end
+hold off;
+
 

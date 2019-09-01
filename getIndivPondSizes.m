@@ -5,6 +5,7 @@ function IndivPondSizes = getIndivPondSizes(surface,height,labelnum)
     iter = 1;
     while iter <= n
         size = sum(sum(L==iter));
+        
         IndivPondSizes = [IndivPondSizes size];
         iter=iter+1;
 end

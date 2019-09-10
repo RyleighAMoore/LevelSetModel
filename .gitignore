@@ -1,6 +1,5 @@
 SimulinkProject/
 data
-*.png
 *.sqlite
 *.swp
 .ipynb_checkpoints

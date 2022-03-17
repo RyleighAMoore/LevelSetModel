@@ -1,4 +1,4 @@
-topo = dlmread('C:\Users\Rylei\OneDrive\Documents\RESEARCH\SedCityRadarDepths_noheader.csv',',');
+topo = dlmread('D:\Rylei\Documents\ResearchKen\SedCityRadarDepths_noheader.csv',',');
 topo = topo';
 x = (0:size(topo,2)-1)*0.235;
 y = (0:size(topo,1)-1)*2;

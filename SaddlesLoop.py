@@ -137,4 +137,4 @@ plt.show()
 #plt.rc('ytick',labelsize=25)
 
 
-#np.savetxt('C:/Users/Rylei/MATLAB/Projects/GitLevelSetModel/Surfaces/realdataScaledSaddles.csv',saddles,delimiter=',')
+# np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/realdataGriddedScaledSaddles.csv',saddles,delimiter=',')

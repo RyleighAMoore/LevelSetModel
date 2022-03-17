@@ -79,8 +79,12 @@ def findsaddlematrix(matrix):
                             saddles[i,j] = 1
     return saddles
 
-     
-matrix=pd.read_csv('C:/Users/Rylei/MATLAB/Projects/GitLevelSetModel/Surfaces/realdataScaled.csv',header=None).to_numpy()
+
+#matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareReallinear.csv',header=None).to_numpy()
+fname = "45-85"
+matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'.csv',header=None).to_numpy()
+
+
 saddles = findsaddlematrix(matrix)
 #saddlesComb = find_saddleNN(matrix) + find_saddleNNN(matrix)
 #saddles is a matrix with 1's in the positions that are saddle points
@@ -142,4 +146,7 @@ plt.show()
 #plt.rc('ytick',labelsize=25)
 
 
-np.savetxt('C:/Users/Rylei/MATLAB/Projects/GitLevelSetModel/Surfaces/realdataScaledSaddles.csv',saddles,delimiter=',')
+#np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareRealLinearSaddles.csv',saddles,delimiter=',')
+np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'saddles.csv',saddles,delimiter=',')
+
+

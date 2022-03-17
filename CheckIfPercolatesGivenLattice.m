@@ -27,11 +27,13 @@ if HorizVert == 0
         percolates = 0;
     end
 end
-if any(ismember(L(:,1),L(:,end)))
-    percolates = 1;
-else
-    percolates = 0;
-end
+
+if HorizVert == 1
+    if any(ismember(L(:,1),L(:,end)))
+        percolates = 1;
+    else
+        percolates = 0;
+    end
 end
 
 

@@ -3,6 +3,7 @@
 step = 0.033;
 step = 0.01;
 w=-1:step:1;
+%I am editing this for testing
 areanumarray = [];
 z = dlmread('.\FittedSquareReallinear.csv');
 %perclevel = getFirstPercLevel(z,0,0.000001,8,0,100);

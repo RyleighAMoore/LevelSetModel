@@ -14,42 +14,42 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from matplotlib.pyplot import imshow
 
-def find_saddleNN(matrix):
-    saddles=np.zeros(matrix.shape,dtype=np.int8)
-    for i,row in enumerate(matrix):
-        for j,element in enumerate(row):
-            if i*j>0 and i<matrix.shape[0]-1 and j<matrix.shape[1]-1:
-                mini=matrix[i-1:i+2,j-1:j+2]
-                if mini[1,1]==max(mini[1]) and mini[1,1]==min(mini[:,1]):
-                    saddles[i,j]=1
-                elif mini[1,1]==min(mini[1]) and mini[1,1]==max(mini[:,1]):
-                    saddles[i,j]=1
-    return saddles
+# def find_saddleNN(matrix):
+#     saddles=np.zeros(matrix.shape,dtype=np.int8)
+#     for i,row in enumerate(matrix):
+#         for j,element in enumerate(row):
+#             if i*j>0 and i<matrix.shape[0]-1 and j<matrix.shape[1]-1:
+#                 mini=matrix[i-1:i+2,j-1:j+2]
+#                 if mini[1,1]==max(mini[1]) and mini[1,1]==min(mini[:,1]):
+#                     saddles[i,j]=1
+#                 elif mini[1,1]==min(mini[1]) and mini[1,1]==max(mini[:,1]):
+#                     saddles[i,j]=1
+#     return saddles
 
-def find_saddleNNN(matrix):
-    saddles=np.zeros(matrix.shape,dtype=np.int8)
-    for i,row in enumerate(matrix):
-        for j,element in enumerate(row):
-            if i*j>0 and i<matrix.shape[0]-1 and j<matrix.shape[1]-1:
-                mini=matrix[i-1:i+2,j-1:j+2]
-                if mini[1,1]==max([mini[0,0],mini[1,1],mini[2,2]]) and mini[1,1]==min([mini[2,0],mini[1,1],mini[0,2]]):
-                    saddles[i,j]=1
-                elif mini[1,1]==min([mini[0,0],mini[1,1],mini[2,2]]) and mini[1,1]==max([mini[2,0],mini[1,1],mini[0,2]]):
-                    saddles[i,j]=1
-    for i,row in enumerate(saddles):
-        for j,element in enumerate(row):
-            if (i*j)>0:
-                mini = saddles[i-1:i+1,j-1:j+1]
-                if np.sum(mini) == 2:
-                    minind = np.argmin((matrix[i-1:i+1,j-1:j+1]-2)*mini) #Depends on values being between -1 and 1
-                    indloc = {0:(i-1,j-1),1:(i-1,j),2:(i,j-1),3:(i,j)}
-                    ind = indloc[minind]
-                    saddles[ind] = 0
-                elif np.sum(mini) > 2:
-                    print('Something fishy is going on!')
-                    print(i,j)
-                    print(matrix[i-1:i+1,j-1:j+1])
-    return saddles
+# def find_saddleNNN(matrix):
+#     saddles=np.zeros(matrix.shape,dtype=np.int8)
+#     for i,row in enumerate(matrix):
+#         for j,element in enumerate(row):
+#             if i*j>0 and i<matrix.shape[0]-1 and j<matrix.shape[1]-1:
+#                 mini=matrix[i-1:i+2,j-1:j+2]
+#                 if mini[1,1]==max([mini[0,0],mini[1,1],mini[2,2]]) and mini[1,1]==min([mini[2,0],mini[1,1],mini[0,2]]):
+#                     saddles[i,j]=1
+#                 elif mini[1,1]==min([mini[0,0],mini[1,1],mini[2,2]]) and mini[1,1]==max([mini[2,0],mini[1,1],mini[0,2]]):
+#                     saddles[i,j]=1
+#     for i,row in enumerate(saddles):
+#         for j,element in enumerate(row):
+#             if (i*j)>0:
+#                 mini = saddles[i-1:i+1,j-1:j+1]
+#                 if np.sum(mini) == 2:
+#                     minind = np.argmin((matrix[i-1:i+1,j-1:j+1]-2)*mini) #Depends on values being between -1 and 1
+#                     indloc = {0:(i-1,j-1),1:(i-1,j),2:(i,j-1),3:(i,j)}
+#                     ind = indloc[minind]
+#                     saddles[ind] = 0
+#                 elif np.sum(mini) > 2:
+#                     print('Something fishy is going on!')
+#                     print(i,j)
+#                     print(matrix[i-1:i+1,j-1:j+1])
+#     return saddles
 
 def findsaddlematrix(matrix):
     saddles = np.zeros_like(matrix, dtype=int)
@@ -80,73 +80,73 @@ def findsaddlematrix(matrix):
     return saddles
 
 
-#matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareReallinear.csv',header=None).to_numpy()
-fname = "45-85"
-matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'.csv',header=None).to_numpy()
+# #matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareReallinear.csv',header=None).to_numpy()
+# fname = "5-5"
+# matrix=pd.read_csv('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'.csv',header=None).to_numpy()
 
 
-saddles = findsaddlematrix(matrix)
-#saddlesComb = find_saddleNN(matrix) + find_saddleNNN(matrix)
-#saddles is a matrix with 1's in the positions that are saddle points
+# saddles = findsaddlematrix(matrix)
+# #saddlesComb = find_saddleNN(matrix) + find_saddleNNN(matrix)
+# #saddles is a matrix with 1's in the positions that are saddle points
 
 
-#Plotting points
-xs,ys,zs=[],[],[]
-for i,row in enumerate(saddles):
-    for j,element in enumerate(row):
-        if element!=0:
-            xs.append(j)
-            ys.append(i)
-            zs.append(matrix[i,j])
+# #Plotting points
+# xs,ys,zs=[],[],[]
+# for i,row in enumerate(saddles):
+#     for j,element in enumerate(row):
+#         if element!=0:
+#             xs.append(j)
+#             ys.append(i)
+#             zs.append(matrix[i,j])
 
-fig=plt.figure()
-ax=fig.add_subplot(111,projection='3d')
-x,y=np.meshgrid(np.arange(0,len(matrix[0]),1),np.arange(0,len(matrix),1))
-#ax.plot_surface(x,y,matrix,cmap=cm.coolwarm,linewidth=0,antialiased=1,alpha=0.5)
-ax.scatter(xs,ys,zs,color='k')
-fig.show()
+# fig=plt.figure()
+# ax=fig.add_subplot(111,projection='3d')
+# x,y=np.meshgrid(np.arange(0,len(matrix[0]),1),np.arange(0,len(matrix),1))
+# #ax.plot_surface(x,y,matrix,cmap=cm.coolwarm,linewidth=0,antialiased=1,alpha=0.5)
+# ax.scatter(xs,ys,zs,color='k')
+# fig.show()
 
-saddlelistz=[]
-saddlelistx=[]
-saddlelisty=[]
-for i,row in enumerate(saddles):
-    for j,value in enumerate(row):
-        if value == 1:
-            saddlelistz.append(matrix[i,j])
-            saddlelistx.append(j)
-            saddlelisty.append(i)
+# saddlelistz=[]
+# saddlelistx=[]
+# saddlelisty=[]
+# for i,row in enumerate(saddles):
+#     for j,value in enumerate(row):
+#         if value == 1:
+#             saddlelistz.append(matrix[i,j])
+#             saddlelistx.append(j)
+#             saddlelisty.append(i)
 
-fig2 = plt.figure()
-imshow(saddles)
-plt.show()
-fig3 = plt.figure()
-plt.hist(saddlelistz, density=True)
-plt.title('Saddle Height Distribution', fontsize=65)
-plt.xlabel('Height (z location)', fontsize=55)
-plt.ylabel('Density', fontsize=55)
-plt.show()
+# fig2 = plt.figure()
+# imshow(saddles)
+# plt.show()
+# fig3 = plt.figure()
+# plt.hist(saddlelistz, density=True)
+# plt.title('Saddle Height Distribution', fontsize=65)
+# plt.xlabel('Height (z location)', fontsize=55)
+# plt.ylabel('Density', fontsize=55)
+# plt.show()
 
-print('Mean: '+str(np.mean(saddlelistz)))
-print('Median: '+str(np.median(saddlelistz)))
-print('StDev: '+str(np.std(saddlelistz)))
-fig4 = plt.figure()
-plt.hist(saddlelistx, density=True)
-plt.title('Saddle Distribution in the x direction', fontsize=65)
-plt.xlabel('x location', fontsize=55)
-plt.ylabel('Density', fontsize=55)
-plt.show()
-fig5 = plt.figure()
-plt.title('Saddle Distribution in the y direction', fontsize=65)
-plt.xlabel('y location', fontsize=55)
-plt.ylabel('Density', fontsize=55)
-plt.hist(saddlelisty, bins=11, density=True)
-plt.show()
+# print('Mean: '+str(np.mean(saddlelistz)))
+# print('Median: '+str(np.median(saddlelistz)))
+# print('StDev: '+str(np.std(saddlelistz)))
+# fig4 = plt.figure()
+# plt.hist(saddlelistx, density=True)
+# plt.title('Saddle Distribution in the x direction', fontsize=65)
+# plt.xlabel('x location', fontsize=55)
+# plt.ylabel('Density', fontsize=55)
+# plt.show()
+# fig5 = plt.figure()
+# plt.title('Saddle Distribution in the y direction', fontsize=65)
+# plt.xlabel('y location', fontsize=55)
+# plt.ylabel('Density', fontsize=55)
+# plt.hist(saddlelisty, bins=11, density=True)
+# plt.show()
 
-#plt.rc('xtick',labelsize=25)
-#plt.rc('ytick',labelsize=25)
+# #plt.rc('xtick',labelsize=25)
+# #plt.rc('ytick',labelsize=25)
 
 
-#np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareRealLinearSaddles.csv',saddles,delimiter=',')
-np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'saddles.csv',saddles,delimiter=',')
+# #np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/FittedSquareRealLinearSaddles.csv',saddles,delimiter=',')
+# np.savetxt('C:/Users/Rylei/Documents/ResearchKen/MATLABCode/LevelSetModel/SurfaceStudy/' +fname +'saddles.csv',saddles,delimiter=',')
 
 

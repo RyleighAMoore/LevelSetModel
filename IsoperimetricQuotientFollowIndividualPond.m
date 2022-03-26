@@ -1,17 +1,12 @@
-%z=getSurface([0.75,0.9],1);
-%z = dlmread('C:\Users\Rylei\Documents\ResearchKen\MATLABCode\LevelSetModel\Surfaces\ry.csv',',');
-%saddleMatrix = dlmread('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\ryNEW.csv',',');
-%z = dlmread('.\Surfaces\realdataScaled.csv',',');
-%saddleMatrix = dlmread('.\Surfaces\realdataScaledSaddles.csv',',');
-z = dlmread('.\FittedSquareReallinear.csv',',');
-saddleMatrix = dlmread('.\FittedSquareReallinearSaddles.csv',',');
-%z = dlmread('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\2010GriddedFirstScaled.csv',',');
-%saddleMatrix = dlmread('C:\Users\Rylei\MATLAB\Projects\GitLevelSetModel\Surfaces\Real2010GriddedCleanedScaledSaddles.csv',',');
-%z=z(301:800,1001:1500)
-%saddleMatrix=saddleMatrix(301:800,1001:1500)
-% z = dlmread('C:\Users\Rylei\Documents\ResearchKen\MATLABCode\LevelSetModel\Surfaces\ry.csv',',');
-% saddleMatrix = dlmread('C:\Users\Rylei\Documents\ResearchKen\MATLABCode\LevelSetModel\Surfaces\rySaddles.csv',',');
-
+dataType = "Model"
+if dataType == "Real"
+    z = dlmread('.\PaperSurfaces\FittedSquareReallinear.csv',',');
+    saddleMatrix = dlmread('.\PaperSurfaces\FittedSquareReallinearSaddles.csv',',');
+end
+if dataType == "Model"
+    z = dlmread('.\PaperSurfaces\ry.csv',',');
+    saddleMatrix = dlmread('.\PaperSurfaces\saddlesry.csv',',');
+end
 
 Area = [];
 Per = [];
@@ -28,14 +23,18 @@ sadNum = 0
 SaddleList = []
 stepsize =0.001 
 percolated = 0
-for j=-0.1:stepsize:1
+for j=-1:stepsize:1
    j
    currponds = z<j;
    [labeledCurrPonds,n] = bwlabel(currponds,4);
-%    pondToFollowNumber = labeledCurrPonds(265,85); %ry.csv graph PAPER
-%    pondToFollowNumber = labeledCurrPonds(7,79); % Real Data scaled PAPER
-   pondToFollowNumber = labeledCurrPonds(5,34); % Real Data Gridded scaled PAPER
-   pondToFollowNumber = labeledCurrPonds(15,120); % Real Data Gridded scaled PAPER
+   if dataType == "Model"
+   pondToFollowNumber = labeledCurrPonds(265,85); %ry.csv graph PAPER
+   end
+   if dataType =="Real"
+    %pondToFollowNumber = labeledCurrPonds(7,79); % Real Data scaled PAPER
+   %pondToFollowNumber = labeledCurrPonds(5,34); % Real Data Gridded scaled PAPER
+        pondToFollowNumber = labeledCurrPonds(15,120); % Real Data Gridded scaled PAPER
+   end
    if pondToFollowNumber ~=0
        test = 0
    end

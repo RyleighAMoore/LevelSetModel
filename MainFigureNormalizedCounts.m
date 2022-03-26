@@ -128,20 +128,20 @@ xlabel('Level Set Height', 'fontsize',16)
 hold off
 
 
-%% Non Normalized
-figure
-hold on
-plot(w,(maxcount-saddles+mincount), '*r', "markersize", 10)
-y = linspace(0,1,100); x = ones(size(y));
-plot(perclevel*x, y, "r")
-lgnd = legend('# Maxima + # Minima - # Saddles',  'Percolation Threshold', 'Perimeter', 'Area', '# Ponds','# Saddles','# Minima', '# Maxima')
-set(lgnd,'color','none');
-legend boxoff
-axis([-1 1 0 1])
-%title('Normalized Real Pond Data')
-ylabel('Normalized Values', 'fontsize',16)
-xlabel('Level Set Height', 'fontsize',16)
-hold off
+% %% Non Normalized
+% figure
+% hold on
+% plot(w,(maxcount-saddles+mincount), '*r', "markersize", 10)
+% y = linspace(0,1,100); x = ones(size(y));
+% plot(perclevel*x, y, "r")
+% lgnd = legend('# Maxima + # Minima - # Saddles',  'Percolation Threshold', 'Perimeter', 'Area', '# Ponds','# Saddles','# Minima', '# Maxima')
+% set(lgnd,'color','none');
+% legend boxoff
+% axis([-1 1 0 1])
+% %title('Normalized Real Pond Data')
+% ylabel('Normalized Values', 'fontsize',16)
+% xlabel('Level Set Height', 'fontsize',16)
+% hold off
 
 % [allArea, allPer, AreaList, PerList, AreaListB, PerListB] = getPondPerArea(z)
 % 

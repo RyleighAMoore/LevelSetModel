@@ -73,7 +73,7 @@ plot(mean(percLevels4)*x, y, "r", "linewidth", 2)
 get(gca)
 axis on
 a = line(xlim, [0,0], 'Color', 'k', 'LineWidth', 1); % Draw line for X axis.
-uistack(a,'bottom') %you can also do uistack(b,'bottom')
+% uistack(a,'bottom') %you can also do uistack(b,'bottom')
 %legend boxoff
 %title('Normalizced Real Pond Data')
 ylabel('Euler Characteristic', 'fontsize',14)

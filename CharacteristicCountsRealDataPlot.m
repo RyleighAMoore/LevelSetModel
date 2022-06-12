@@ -16,16 +16,17 @@ perclevel = getFirstPercLevel(z,0,0.000001,4,1,10);
 figure
 hold on
 y = linspace(min(maxcount-saddles+mincount)-20,max(maxcount-saddles+mincount)+2,100); x = ones(size(y));
-plot(perclevel*x, y, "r")
+plot(perclevel*x, y, "r", 'LineWidth', 2)
 plot(w,(maxcount-saddles+mincount), '.-k', "markersize", 20, "linewidth", 2)
 lgnd = legend('Percolation Threshold Level','# Maxima + # Minima - # Saddles', 'Location','northeast');
 set(lgnd,'color','none');
 legend boxoff
 %title('Normalized Real Pond Data')
-ylabel('Euler Characteristic', 'fontsize',14)
-xlabel('Level Set Height', 'fontsize',14)
+ylabel('Euler Characteristic', 'fontsize',18)
+xlabel('Level Set Height', 'fontsize',18)
 ylim([-60, 100])
 hold off
+
 
 
 %%Area/ Perimeter
@@ -33,16 +34,16 @@ hold off
 figure
 hold on
 y = linspace(min(Area)-10,max(Area)+100,100); x = ones(size(y));
-plot(perclevel*x, y, "r")
+plot(perclevel*x, y, "r", 'LineWidth', 2)
 plot(w, Per, "-s", "markersize", 5, 'LineWidth', 2)
 plot(w, Area, "o-" , "markersize", 5, "color", "[0 0.5 0]", 'LineWidth', 2)
 lgnd = legend('Percolation Threshold Level', 'Perimeter', 'Area', 'Location','northwest');
-set(lgnd,'color','none');
+set(lgnd,'color','none', 'fontsize',12);
 legend boxoff
 %title('Normalized Real Pond Data')
-ylabel('Perimeter (m) / Area (m^2)' , 'fontsize',14)
-xlabel('Level Set Height', 'fontsize',14)
-ylim([0, 5500])
+ylabel('Perimeter (m) / Area (m^2)' , 'fontsize',18)
+xlabel('Level Set Height', 'fontsize',18)
+ylim([0, 6000])
 hold off
 
 
@@ -50,7 +51,7 @@ hold off
 figure
 hold on
 y = linspace(0,650); x = ones(size(y));
-plot(perclevel*x, y, "r")
+plot(perclevel*x, y, "r", 'LineWidth', 2)
 %plot(w, Per, "--", "markersize", 8)
 %plot(w, Area, ":" , "markersize", 8, "color", "[0 0.5 0]", 'LineWidth', 2)
 plot(w, pondcount, 'o-k', "markersize", 4, 'LineWidth',2)
@@ -61,8 +62,8 @@ lgnd = legend('Percolation Threshold Level', '# Ponds','# Saddles','# Minima', '
 set(lgnd,'color','none');
 legend boxoff
 %title('Magnitude')
-ylabel('Characteristic Count', 'fontsize',14)
-xlabel('Level Set Height', 'fontsize',14)
+ylabel('Characteristic Count', 'fontsize',18)
+xlabel('Level Set Height', 'fontsize',18)
 hold off
 
 
